@@ -2,7 +2,7 @@ export interface MainState {
   token: string;
   isLoggedIn: boolean;
   currentUser: ICurrentUser | null;
-  posts: Array<IPost>;
+  posts: Array<string>;
 }
 
 export interface ICurrentUser {

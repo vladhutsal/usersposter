@@ -5,29 +5,40 @@ import { getStoreAccessors } from "typesafe-vuex";
 
 Vue.use(Vuex);
 
+type MainContext = ActionContext<MainState, MainState>
+
 const State: MainState = {
   token: '',
   isLoggedIn: false,
   currentUser:  null,
-  posts: [],
+  posts: ['kek', 'cheburek'],
 }
 
-export default new Vuex.Store({
+export const options = {
   state: State,
   getters: {
-    
+    getPost: (state: MainState) => state.posts,
   },
 
   mutations: {
-    addPost(state, post: IPost) {
+    addPost(state: MainState, post: string) {
       state.posts.push(post);
     }
   },
 
   actions: {
-    addPost(context, post: IPost) {
+    async actionAddPost(context: MainContext, post: IPost) {
       context.commit('addPost', post);
     }
   },
 
-});
+};
+
+export const store = new Vuex.Store<MainState>(options);
+
+const { commit, read, dispatch } = 
+  getStoreAccessors<MainState, MainState>(''); 
+
+export const readPosts = read(options.getters.getPost);
+export const dispatchAddPost = dispatch(options.actions.actionAddPost);
+export const commitAppendPost = commit(options.mutations.addPost);
