@@ -2,6 +2,7 @@
 node_modules
 /dist
 .vscode
+frontend
 
 
 # local env files
