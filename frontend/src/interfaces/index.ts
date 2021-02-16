@@ -2,7 +2,7 @@ export interface MainState {
   token: string;
   isLoggedIn: boolean;
   currentUser: ICurrentUser | null;
-  posts: Array<string>;
+  posts: Array<IPost>;
 }
 
 export interface ICurrentUser {
@@ -13,11 +13,21 @@ export interface ICurrentUser {
   posts: Array<IPost>;
 }
 
+export interface IUserCreate {
+  username: string;
+  password: string;
+}
+
 export interface IPost {
   id: number;
   title: string;
   owner_id: number;
   post_likes: Array<ILike>;
+}
+
+export interface IPostCreate {
+  title: string;
+  owner_id: number;
 }
 
 interface ILike {
