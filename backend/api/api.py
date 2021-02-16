@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.endpoints import analytics, users, posts
+from backend.api.endpoints import analytics, users, posts
 
 
 api_router = APIRouter()

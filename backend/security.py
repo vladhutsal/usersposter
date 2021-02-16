@@ -9,8 +9,8 @@ from sqlalchemy.orm import Session
 from jose import jwt
 from passlib.context import CryptContext
 
-from app.db import models, crud
-from app.db.database import get_db
+from backend.db import models, crud
+from backend.db.database import get_db
 
 SECRET_KEY = '2ad389004a0a141e0f67dd6bbcf150e042ddd2272a7b1363fdcdfbc81a3efd3b'
 ALGORITHM = 'HS256'
