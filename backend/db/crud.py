@@ -7,18 +7,15 @@ from . import models, schemas
 
 # --- USERS
 def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+    return db.query(models.User).filter(models.User.id == user_id)
 
 
 def get_user_by_name(db: Session, username: str):
-    return db.query(models.User).filter(models.User.username == username).first()
+    return db.query(models.User).filter(models.User.username == username)
 
 
 def create_user(db: Session, username: str, password: str):
-    db_user = models.User(
-        username=username,
-        hashed_password=password,
-    )
+    db_user = models.User(username=username,hashed_password=password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -74,7 +71,7 @@ def create_like(db: Session, like: schemas.LikeCreate, user_id):
 
 
 def remove_like(db: Session, like_id: int):
-    like = db.query(models.Like).filter(models.Like.id == like_id).first()
+    like = db.query(models.Like).filter(models.Like.id == like_id)
     assert like
     db.delete(like)
     db.commit()
@@ -84,7 +81,7 @@ def remove_like(db: Session, like_id: int):
 def get_user_like_by_post(db: Session, post_id: int, user_id: int):
     return db.query(models.Like).filter(
         models.Like.post_id == post_id, models.Like.user_id == user_id
-    ).first()
+    )
 
 
 # --- ANALYTICS

@@ -2,7 +2,7 @@ from typing import Optional, Union
 from datetime import datetime, timedelta
 
 from pydantic import ValidationError
-from fastapi import Depends, HTTPException, Cookie
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
