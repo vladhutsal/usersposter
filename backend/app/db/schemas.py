@@ -5,14 +5,17 @@ from pydantic import BaseModel
 
 class LikeBase(BaseModel):
     post_id: int
-    user_id: int
 
 class LikeCreate(LikeBase):
     pass
 
+class LikeRemove(BaseModel):
+    status: bool
+
 class Like(LikeBase):
     id: int
-    when_liked: datetime.datetime
+    user_id: int
+    when_liked: datetime.date
 
     class Config:
         orm_mode = True
@@ -34,7 +37,7 @@ class Post(PostBase):
 
 
 class UserBase(BaseModel):
-    name: str
+    username: str
 
 class UserCreate(UserBase):
     password: str
@@ -47,3 +50,7 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+    
+class Token(BaseModel):
+    access_token: str
+    token_type: str

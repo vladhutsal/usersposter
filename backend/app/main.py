@@ -1,23 +1,31 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer
 
-from app.api import api_router
-from .db.database import engine
+from app.api.api import api_router
+from .db.database import engine, get_db
 from .db.models import Base
+from .db import crud
+from . import security
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+# def track_requests(request: Request):
+#     token = request.cookies.get('token', False)
+#     if token:
+#         user = security.get_current_user(token=token)
+#         print(type(user))
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+# app = FastAPI(dependencies=[Depends(track_requests)])
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=['*'],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=['*'],
+    allow_headers=['*'],
 )
 
 app.include_router(api_router, prefix='/api')
