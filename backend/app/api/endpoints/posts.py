@@ -11,22 +11,26 @@ router = APIRouter()
 
 
 @router.post('/create', response_model=schemas.Post)
+@crud.track_activity
 def create_user_post( 
     post: schemas.PostCreate, db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
-) -> schemas.Post:
+):
     return crud.create_post(db=db, post=post, user_id=current_user.id)
 
 
 @router.get('/', response_model=List[schemas.Post])
+@crud.track_activity
 def read_posts(
-    skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
-) -> List[schemas.Post]:
+    skip: int = 0, limit: int = 100, db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
     posts = crud.get_posts(db, skip=skip, limit=limit)
     return posts
 
 
 @router.post('/switch-like')
+@crud.track_activity
 def like_unlike_post(
     like: schemas.LikeCreate, db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)

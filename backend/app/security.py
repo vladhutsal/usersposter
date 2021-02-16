@@ -25,7 +25,6 @@ def create_access_token(subject: Union[str, int]) -> str:
     expire = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
     to_encode = {'exp': expire, 'sub': str(subject)}
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    
     return encoded_jwt
 
 
@@ -40,7 +39,7 @@ def get_current_user(
             detail='Could not validate credentials',
         )
     user = crud.get_user(db, user_id=payload.get('sub'))
-
+    
     if not user:
         raise HTTPException(status_code=404, detail='User not found')
     return user
@@ -51,6 +50,7 @@ def authenticate(db: Session, username: str, password: str) -> Optional[models.U
     password_pass = verify_password(password, user.hashed_password)
     if not user or not password_pass:
         return None
+    crud.update_user_last_login(db, user)
     return user
 
 

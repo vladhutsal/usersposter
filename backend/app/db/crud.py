@@ -1,4 +1,5 @@
 import datetime
+from functools import wraps
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -24,8 +25,31 @@ def create_user(db: Session, username: str, password: str):
     return db_user
 
 
-def user_set_last_active(db: Session, user: schemas.User):
-    db_user = models
+def update_user_last_login(db: Session, db_user: models.User):
+    db_user.last_login = datetime.datetime.now()
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def update_user_last_active(db: Session, db_user: models.User):
+    db_user.last_active = datetime.datetime.now()
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
+def track_activity(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        update_user_last_active(
+            kwargs.get('db'), kwargs.get('current_user')
+        )
+        return func(*args, **kwargs)
+    return wrapper
+
 
 # --- POSTS
 def get_posts(db: Session, skip: int = 0, limit: int = 100):

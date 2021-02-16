@@ -10,6 +10,7 @@ python-jose = {extras = ["cryptography"], version = "*"}
 uvicorn = {extras = ["standart"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
 python-multipart = "*"
+cryptography = "==2.4.2"
 
 [dev-packages]
 

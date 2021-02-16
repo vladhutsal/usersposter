@@ -1,23 +1,13 @@
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.api import api_router
-from .db.database import engine, get_db
+from .db.database import engine
 from .db.models import Base
-from .db import crud
-from . import security
+
 
 Base.metadata.create_all(bind=engine)
 
-# def track_requests(request: Request):
-#     token = request.cookies.get('token', False)
-#     if token:
-#         user = security.get_current_user(token=token)
-#         print(type(user))
-
-
-
-# app = FastAPI(dependencies=[Depends(track_requests)])
 app = FastAPI()
 
 app.add_middleware(
